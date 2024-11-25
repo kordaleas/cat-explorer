@@ -17,10 +17,10 @@
 
 <main class="container mx-auto p-4">
   <h1 class="text-3xl font-bold mb-6">Cat Breeds Explorer</h1>
-  <app-search-bar></app-search-bar>
+  <app-search-bar (search)="handleSearch($event)"></app-search-bar>
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
     <app-cat-card 
-      *ngFor="let breed of breeds" 
+      *ngFor="let breed of filteredBreeds" 
       [breed]="breed">
     </app-cat-card>
   </div>
