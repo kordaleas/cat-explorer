@@ -2,11 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { CatBreed } from '../../models/cat.interface';
 import { CatService } from '../../services/cat.service';
+import { CatModalComponent } from '../cat-modal/cat-modal.component';
 
 @Component({
   selector: 'app-cat-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, CatModalComponent],
   templateUrl: './cat-card.component.html',
   styleUrl: './cat-card.component.scss'
 })
