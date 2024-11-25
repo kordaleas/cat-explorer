@@ -1,0 +1,23 @@
+<p>cat-card works!</p>
+<div class="rounded-lg shadow-lg overflow-hidden bg-white">
+    <div class="h-48 overflow-hidden">
+      <img 
+        [src]="imageUrl" 
+        [alt]="breed.name"
+        class="w-full h-full object-cover"
+        *ngIf="imageUrl; else loading">
+      <ng-template #loading>
+        <div class="w-full h-full bg-gray-200 animate-pulse"></div>
+      </ng-template>
+    </div>
+    
+    <div class="p-4">
+      <h2 class="text-xl font-bold mb-2">{{breed.name}}</h2>
+      <p class="text-gray-600 mb-4 line-clamp-3">{{breed.description}}</p>
+      <button 
+        (click)="openModal()"
+        class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">
+        See More
+      </button>
+    </div>
+  </div>
