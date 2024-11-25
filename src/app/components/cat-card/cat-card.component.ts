@@ -3,6 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { CatBreed } from '../../models/cat.interface';
 import { CatService } from '../../services/cat.service';
 import { CatModalComponent } from '../cat-modal/cat-modal.component';
+import { retry } from 'rxjs';
 
 @Component({
   selector: 'app-cat-card',
@@ -13,21 +14,41 @@ import { CatModalComponent } from '../cat-modal/cat-modal.component';
 })
 export class CatCardComponent implements OnInit {
   @Input() breed!: CatBreed;
+
   imageUrl: string = '';
   isModalOpen = false;
+  isLoading = true;
+  hasError = false;
 
   constructor(private catService: CatService) {}
 
+
   ngOnInit() {
-    this.loadBreedImage();
+    this.loadImage();
   }
 
-  loadBreedImage() {
-    this.catService.getBreedImage(this.breed.id).subscribe(images => {
-      if (images.length > 0) {
-        this.imageUrl = images[0].url;
-      }
-    });
+  loadImage() {
+    this.isLoading = true;
+    this.hasError = false;
+    
+    this.catService.getBreedImage(this.breed.id)
+      .pipe(retry(2))
+      .subscribe({
+        next: (images) => {
+          if (images.length > 0) {
+            this.imageUrl = images[0].url;
+          }
+          this.isLoading = false;
+        },
+        error: () => {
+          this.isLoading = false;
+          this.hasError = true;
+        }
+      });
+  }
+
+  retryLoad() {
+    this.loadImage();
   }
 
   openModal() {
