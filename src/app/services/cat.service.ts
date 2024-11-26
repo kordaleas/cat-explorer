@@ -1,7 +1,8 @@
 import { Injectable, makeStateKey, TransferState } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { catchError, Observable, of, throwError } from 'rxjs';
 import { CatBreed, CatImage } from '../models/cat.interface';
+import { ApiError } from '../models/error.interface';
 
 const BREED_IMAGE_KEY = makeStateKey<Record<string, string>>('breedImages');
 
@@ -15,7 +16,16 @@ export class CatService {
   ) { }
 
   getBreeds(): Observable<CatBreed[]> {
-    return this.http.get<CatBreed[]>(`${this.apiUrl}/breeds`);
+    return this.http.get<CatBreed[]>(`${this.apiUrl}/breeds`).pipe(
+      catchError((error: HttpErrorResponse) => {
+        const apiError: ApiError = {
+          statusCode: error.status,
+          message: error.message,
+          timestamp: new Date().toISOString()
+        };
+        return throwError(() => apiError);
+      })
+    );
   }
 
   getBreedImage(breedId: string): Observable<CatImage[]> {
@@ -24,5 +34,15 @@ export class CatService {
       return of([{ url: images[breedId] } as CatImage]);
     }
 
-    return this.http.get<CatImage[]>(`${this.apiUrl}/images/search?breed_ids=${breedId}`);  }
+    return this.http.get<CatImage[]>(`${this.apiUrl}/images/search?breed_ids=${breedId}`).pipe(
+      catchError((error: HttpErrorResponse) => {
+        const apiError: ApiError = {
+          statusCode: error.status,
+          message: error.message,
+          timestamp: new Date().toISOString()
+        };
+        return throwError(() => apiError);
+      })
+    );
+  }
 }

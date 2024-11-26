@@ -4,6 +4,7 @@ import { CatBreed } from '../../models/cat.interface';
 import { CatService } from '../../services/cat.service';
 import { CatModalComponent } from '../cat-modal/cat-modal.component';
 import { retry } from 'rxjs';
+import { ApiError } from '../../models/error.interface';
 
 @Component({
   selector: 'app-cat-card',
@@ -28,6 +29,7 @@ export class CatCardComponent implements OnInit {
   isModalOpen = false;
   isLoading = true;
   hasError = false;
+  errorMessage: string = '';
 
   constructor(private catService: CatService) {}
 
@@ -49,9 +51,10 @@ export class CatCardComponent implements OnInit {
           }
           this.isLoading = false;
         },
-        error: () => {
+        error: (error: ApiError) => {
           this.isLoading = false;
           this.hasError = true;
+          this.errorMessage = `Failed to load image (${error.statusCode})`;
         }
       });
   }

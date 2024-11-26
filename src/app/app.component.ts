@@ -8,6 +8,7 @@ import { CatService } from './services/cat.service';
 import { CatBreed } from './models/cat.interface';
 import { FormsModule } from '@angular/forms';
 import { SkeletonLoaderComponent } from './components/skeleton-loader/skeleton-loader.component';
+import { ApiError } from './models/error.interface';
 
 const BREEDS_KEY = makeStateKey<CatBreed[]>('breeds');
 
@@ -58,8 +59,8 @@ export class AppComponent implements OnInit {
         this.filteredBreeds = breeds;
         this.isLoading = false;
       },
-      error: () => {
-        this.error = 'Failed to load cat breeds. Please try again.';
+      error: (error: ApiError) => {
+        this.error = `Error ${error.statusCode}: ${error.message}`;
         this.isLoading = false;
       }
     });
