@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component, HostListener, Input, OnInit } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, ElementRef, HostListener, Inject, Input, OnInit, PLATFORM_ID } from '@angular/core';
 import { CatBreed } from '../../models/cat.interface';
 import { CatService } from '../../services/cat.service';
 import { CatModalComponent } from '../cat-modal/cat-modal.component';
@@ -31,17 +31,37 @@ export class CatCardComponent implements OnInit {
   hasError = false;
   errorMessage: string = '';
 
-  constructor(private catService: CatService) {}
+  private observer?: IntersectionObserver;
 
+  constructor(private catService: CatService, private el: ElementRef, @Inject(PLATFORM_ID) private platformId: Object
+) {
+    if (isPlatformBrowser(this.platformId)) {
+      this.observer = new IntersectionObserver(this.onIntersection.bind(this), {
+        rootMargin: '50px'
+      });
+    }
+  }
+
+  private onIntersection(entries: IntersectionObserverEntry[]): void {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        this.loadImage();
+        this.observer?.unobserve(entry.target);
+      }
+    });
+  }
 
   ngOnInit() {
-    this.loadImage();
-  }
+    if (this.observer) {
+      this.observer.observe(this.el.nativeElement);
+    } else {
+      this.loadImage();
+    }  }
 
   loadImage() {
     this.isLoading = true;
     this.hasError = false;
-    
+
     this.catService.getBreedImage(this.breed.id)
       .pipe(retry(2))
       .subscribe({
