@@ -1,0 +1,74 @@
+<div
+  class="fixed inset-0 bg-black/50 bg-opacity-50 flex items-center justify-center z-50"
+  role="dialog"
+  aria-labelledby="modal-title"
+  aria-modal="true"
+  (click)="closeModal()"
+>
+  <div
+    class="bg-white dark:bg-gray-800 rounded-lg max-w-2xl w-full m-4 max-h-[90vh] overflow-y-auto"
+    (click)="$event.stopPropagation()"
+    role="document"
+  >
+    <div class="p-6">
+      <div class="flex justify-between items-start mb-4">
+        <h2 id="modal-title" class="text-2xl font-bold dark:text-white">{{ breed.name }}</h2>
+        <button
+          (click)="closeModal()"
+          class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
+          aria-label="Close modal">
+          ✕
+        </button>
+      </div>
+
+      <img
+        [src]="imageUrl"
+        [alt]="breed.name + ' cat'"
+        class="w-full h-64 object-cover rounded mb-4"
+      />
+
+      <div class="space-y-4">
+        <p class="dark:text-gray-300">{{ breed.description }}</p>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div class="dark:text-gray-300">
+            <strong class="dark:text-white">Weight:</strong>
+            {{ breed.weight.metric }} kg
+          </div>
+          <div class="dark:text-gray-300">
+            <strong class="dark:text-white">Life Span:</strong>
+            {{ breed.life_span }} years
+          </div>
+          <div class="dark:text-gray-300">
+            <strong class="dark:text-white">Origin:</strong> {{ breed.origin }}
+          </div>
+          <div class="dark:text-gray-300">
+            <strong class="dark:text-white">Temperament:</strong>
+            {{ breed.temperament }}
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <h3 class="font-bold mb-2 dark:text-white">Rankings</h3>
+          <div class="grid grid-cols-2 gap-4">
+            <div
+              *ngFor="let ranking of selectedRankings"
+              class="dark:text-gray-300"
+            >
+              <strong>{{ ranking | titlecase }}:</strong>
+              <div class="flex gap-1">
+                <span
+                  *ngFor="let i of [1, 2, 3, 4, 5]"
+                  class="h-4 w-4 rounded-full"
+                  [class.bg-blue-500]="getRanking(ranking) >= i"
+                  [class.bg-gray-200]="getRanking(ranking) < i"
+                >
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
