@@ -1,6 +1,6 @@
 <button
   (click)="toggleTheme()"
-  class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"
+  class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 focus-ring"
   [class.dark]="isDark$ | async"
   [attr.aria-label]="
     (isDark$ | async) ? 'Switch to light mode' : 'Switch to dark mode'
