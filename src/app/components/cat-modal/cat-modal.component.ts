@@ -41,6 +41,7 @@ export class CatModalComponent implements OnInit{
   }
 
   closeModal() {
+    document.body.style.overflow = '';
     this.close.emit();
   }
 
