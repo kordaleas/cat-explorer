@@ -1,27 +1,55 @@
-# CatExplorer
+# Cat Explorer
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.12.
+A modern web application built with Angular that allows users to explore and discover various cat breeds. View detailed information about each breed, including origins, temperament, and characteristics.
 
-## Development server
+## Features
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- Browse cat breeds with lazy-loaded images
+- Search functionality with debounced input
+- Dark/Light theme toggle
+- Responsive grid layout
+- Cached API responses
+- Accessibility support
+- SEO friendly
 
-## Code scaffolding
+## Tech Stack
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- Angular 18
+- TailwindCSS
+- RxJS
+- The Cat API
 
-## Build
+## Getting Started
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/cat-explorer.git
+```
 
-## Running unit tests
+2. Install dependencies:
+```bash
+npm install
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+3. Run the development server:
+```bash
+ng serve
+```
 
-## Running end-to-end tests
+4. Navigate to http://localhost:4200 
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## Performance Optimizations
+- Image lazy loading with Intersection Observer
+- API response caching
+- Debounced search
+- State transfer for SSR
 
-## Further help
+## Contributing
+- Fork the repository
+- Create your feature branch
+- Commit your changes
+- Push to the branch
+- Open a Pull Request
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## License
+MIT
