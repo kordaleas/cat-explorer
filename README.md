@@ -23,7 +23,7 @@ A modern web application built with Angular that allows users to explore and dis
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/cat-explorer.git
+git clone https://github.com/kordaleas/cat-explorer.git
 ```
 
 2. Install dependencies:
