@@ -30,6 +30,8 @@ export class AppComponent implements OnInit {
   searchError: string | null = null;
   noResults = false;
 
+  private searchCache = new Map<string, CatBreed[]>();
+
   constructor(private catService: CatService, private transferState: TransferState,
     @Inject(PLATFORM_ID) private platformId: Object
   ) { }
@@ -71,6 +73,13 @@ export class AppComponent implements OnInit {
   }
 
   handleSearch(searchTerm: string) {
+    const cacheKey = searchTerm.toLowerCase();
+
+    if (this.searchCache.has(cacheKey)) {
+      this.filteredBreeds = this.searchCache.get(cacheKey)!;
+      return;
+    }
+
     try {
       this.searchError = null;
       this.noResults = false;
