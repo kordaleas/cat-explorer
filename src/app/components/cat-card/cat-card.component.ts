@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { CatBreed } from '../../models/cat.interface';
 import { CatService } from '../../services/cat.service';
 import { CatModalComponent } from '../cat-modal/cat-modal.component';
@@ -14,6 +14,15 @@ import { retry } from 'rxjs';
 })
 export class CatCardComponent implements OnInit {
   @Input() breed!: CatBreed;
+
+  @HostListener('keydown.enter')
+  @HostListener('keydown.space', ['$event'])
+  onKeyPress(event?: KeyboardEvent) {
+    if (event) {
+      event.preventDefault();
+    }
+    this.openModal();
+  }
 
   imageUrl: string = '';
   isModalOpen = false;
